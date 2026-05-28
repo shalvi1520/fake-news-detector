@@ -121,18 +121,18 @@ def run_preprocessing():
     os.makedirs("data/processed", exist_ok=True)
     os.makedirs("models", exist_ok=True)
 
-    print("📥 Loading data...")
+    print(" Loading data...")
     df = load_data("data/raw/Fake.csv", "data/raw/True.csv")
     print(f"   Total samples: {len(df)}")
 
-    print("⚙️  Preparing features...")
+    print("  Preparing features...")
     df = prepare_features(df)
 
-    print("🔢 Vectorizing with TF-IDF...")
+    print(" Vectorizing with TF-IDF...")
     X, y, tfidf = vectorize(df)
     print(f"   Feature matrix shape: {X.shape}")
 
-    print("✂️  Splitting into train/test sets...")
+    print("  Splitting into train/test sets...")
     X_train, X_test, y_train, y_test = split_data(X, y)
     print(f"   Train size: {X_train.shape[0]} | Test size: {X_test.shape[0]}")
 
@@ -140,7 +140,7 @@ def run_preprocessing():
     joblib.dump(tfidf, "models/tfidf_vectorizer.pkl")
     joblib.dump((X_train, X_test, y_train, y_test), "models/train_test_data.pkl")
 
-    print("\n✅ Preprocessing complete!")
+    print("\n Preprocessing complete!")
     print("   Saved: models/tfidf_vectorizer.pkl")
     print("   Saved: models/train_test_data.pkl")
 
