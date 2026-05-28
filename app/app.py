@@ -70,7 +70,7 @@ st.sidebar.markdown("---")
 
 page = st.sidebar.radio(
     "Navigate",
-    ["🔍 Detect News", "📊 Model Analytics", "ℹ️ About"]
+    ["🔍 Detect News", "🌐 Analyze URL", "📊 Model Analytics", "ℹ️ About"]
 )
 
 st.sidebar.markdown("---")
@@ -167,7 +167,53 @@ if page == "🔍 Detect News":
                 })
             st.table(pd.DataFrame(model_results))
 
+# ════════════════════════════════════════════════════════════
+# PAGE: ANALYZE URL
+# ════════════════════════════════════════════════════════════
+elif page == "🌐 Analyze URL":
+    st.title("🌐 Real-Time URL News Analyzer")
+    st.markdown("Enter a news article URL and we'll scrape + classify it instantly.")
+    st.markdown("---")
 
+    from app.utils import fetch_article_from_url
+
+    url_input = st.text_input("🔗 Paste News Article URL", 
+                               placeholder="https://www.bbc.com/news/...")
+    analyze_url_btn = st.button("🚀 Fetch & Analyze", type="primary")
+
+    if analyze_url_btn and url_input:
+        with st.spinner("🌐 Fetching article..."):
+            article_data = fetch_article_from_url(url_input)
+
+        if not article_data["success"]:
+            st.error(f"❌ Could not fetch article: {article_data['error']}")
+        else:
+            st.success("✅ Article fetched successfully!")
+
+            col1, col2 = st.columns([2, 1])
+            with col1:
+                st.subheader("📰 Article Info")
+                st.markdown(f"**Title:** {article_data['title']}")
+                st.markdown(f"**Published:** {article_data['publish_date']}")
+                if article_data["authors"]:
+                    st.markdown(f"**Authors:** {', '.join(article_data['authors'])}")
+                with st.expander("📄 Article Text (Preview)"):
+                    st.write(article_data["text"][:2000] + "...")
+
+            with col2:
+                st.subheader("🤖 Classification")
+                full_text = article_data["title"] + " " + article_data["text"]
+                result = predict_news(full_text, models[model_choice], vectorizer)
+
+                if result["is_real"]:
+                    st.markdown('<div class="real-badge">✅ REAL NEWS</div>',
+                                unsafe_allow_html=True)
+                else:
+                    st.markdown('<div class="fake-badge">❌ FAKE NEWS</div>',
+                                unsafe_allow_html=True)
+
+                if result["confidence"]:
+                    st.metric("Confidence", f"{result['confidence']:.1f}%")
 # ════════════════════════════════════════════════════════════
 # PAGE 2: MODEL ANALYTICS
 # ════════════════════════════════════════════════════════════
