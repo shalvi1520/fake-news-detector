@@ -1,34 +1,60 @@
-# 🗞️ Fake News Detection System
+#  Fake News Detection System
 
-## Objective
-A machine learning application that classifies news articles as **Real** or **Fake** using NLP and multiple ML algorithms.
+##  Objective
+A machine learning application that classifies news articles as **Real** or **Fake** using NLP and four ML algorithms — with an interactive Streamlit dashboard.
 
-## Features
-- Multi-model comparison (Logistic Regression, Naive Bayes, Random Forest, Passive Aggressive)
-- Real-time news URL analysis
-- Interactive Streamlit dashboard
-- Confidence score display
-- Performance analytics & visualizations
+##  Features
+-  Multi-model classification (Logistic Regression, Naive Bayes, Random Forest, Passive Aggressive)
+-  Real-time URL article scraping and classification
+-  Confidence score gauge for predictions
+-  All-models comparison on same article
+-  Performance analytics dashboard (accuracy, F1, confusion matrices, ROC curves)
+-  Word cloud & EDA visualizations
 
-## Tech Stack
-- Python, Pandas, NumPy
-- Scikit-learn (ML models)
-- NLTK (NLP preprocessing)
-- Streamlit (Web app)
-- Plotly (Visualizations)
+##  Tech Stack
+| Category | Tools |
+|---|---|
+| Language | Python 3.9+ |
+| ML/NLP | Scikit-learn, NLTK |
+| Visualization | Plotly, Seaborn, Matplotlib, WordCloud |
+| Web App | Streamlit |
+| URL Scraping | newspaper3k |
+| Dataset | ISOT Fake News (Kaggle) |
 
-## Setup Instructions
+##  Model Results
+| Model | Accuracy | F1 Score |
+|---|---|---|
+| Logistic Regression | ~98.7% | ~98.7% |
+| Passive Aggressive | ~99.2% | ~99.2% |
+| Random Forest | ~99.0% | ~99.0% |
+| Naive Bayes | ~95.8% | ~95.8% |
+
+##  Quick Start
+
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/YOUR_USERNAME/fake-news-detector.git
 cd fake-news-detector
+```
+
+### 2. Install Dependencies
+```bash
 python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
+```
+
+### 3. Add Dataset
+Download from [Kaggle](https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset)  
+Place `Fake.csv` and `True.csv` in `data/raw/`
+
+### 4. Run Pipeline (Train Models)
+```bash
+python run_pipeline.py
+```
+
+### 5. Launch Web App
+```bash
 streamlit run app/app.py
 ```
 
-## Dataset
-ISOT Fake News Dataset — [Kaggle Link](https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset)
-
-## Results
-*(Will be updated after training)*
