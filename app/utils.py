@@ -71,3 +71,26 @@ def load_models_and_vectorizer():
             models[name] = joblib.load(path)
 
     return models, vectorizer
+
+def fetch_article_from_url(url: str) -> dict:
+    """
+    Scrapes a news article from a URL using newspaper3k.
+    Returns title, text, and publish date.
+    """
+    try:
+        from newspaper import Article
+        article = Article(url)
+        article.download()
+        article.parse()
+        return {
+            "success": True,
+            "title": article.title,
+            "text": article.text,
+            "publish_date": str(article.publish_date) if article.publish_date else "Unknown",
+            "authors": article.authors,
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e),
+        }
