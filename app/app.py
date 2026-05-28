@@ -70,7 +70,7 @@ st.sidebar.markdown("---")
 
 page = st.sidebar.radio(
     "Navigate",
-    ["🔍 Detect News", "🌐 Analyze URL", "📊 Model Analytics", "ℹ️ About"]
+    [" Detect News", " Analyze URL", " Model Analytics", " About"]
 )
 
 st.sidebar.markdown("---")
@@ -78,9 +78,9 @@ st.sidebar.markdown("**Select Model:**")
 try:
     models, vectorizer = get_models()
     model_choice = st.sidebar.selectbox("", list(models.keys()))
-    st.sidebar.success(f"✅ {len(models)} models loaded")
+    st.sidebar.success(f" {len(models)} models loaded")
 except Exception as e:
-    st.sidebar.error(f"❌ Error loading models: {e}")
+    st.sidebar.error(f" Error loading models: {e}")
     st.sidebar.info("Run: `python src/preprocess.py` then `python src/train.py`")
     st.stop()
 
@@ -88,44 +88,44 @@ except Exception as e:
 # ════════════════════════════════════════════════════════════
 # PAGE 1: DETECT NEWS
 # ════════════════════════════════════════════════════════════
-if page == "🔍 Detect News":
+if page == " Detect News":
     st.title("🗞️ Fake News Detection System")
     st.markdown("Paste a news article below and the AI will classify it as **Real** or **Fake**.")
     st.markdown("---")
 
     input_text = st.text_area(
-        "📝 Paste News Article Here",
+        " Paste News Article Here",
         height=250,
         placeholder="Paste a full news article or headline here...",
     )
 
     col1, col2, col3 = st.columns([1, 1, 2])
     with col1:
-        detect_btn = st.button("🔍 Analyze Article", use_container_width=True, type="primary")
+        detect_btn = st.button(" Analyze Article", use_container_width=True, type="primary")
     with col2:
-        clear_btn = st.button("🗑️ Clear", use_container_width=True)
+        clear_btn = st.button(" Clear", use_container_width=True)
 
     if clear_btn:
         st.rerun()
 
     if detect_btn:
         if not input_text.strip():
-            st.warning("⚠️ Please paste a news article first!")
+            st.warning(" Please paste a news article first!")
         else:
-            with st.spinner("🤖 Analyzing article..."):
+            with st.spinner(" Analyzing article..."):
                 result = predict_news(input_text, models[model_choice], vectorizer)
 
             st.markdown("---")
-            st.subheader("📋 Analysis Results")
+            st.subheader(" Analysis Results")
 
             col_res, col_conf, col_words = st.columns(3)
 
             with col_res:
                 if result["is_real"]:
-                    st.markdown(f'<div class="real-badge">✅ REAL NEWS</div>',
+                    st.markdown(f'<div class="real-badge"> REAL NEWS</div>',
                                 unsafe_allow_html=True)
                 else:
-                    st.markdown(f'<div class="fake-badge">❌ FAKE NEWS</div>',
+                    st.markdown(f'<div class="fake-badge"> FAKE NEWS</div>',
                                 unsafe_allow_html=True)
 
             with col_conf:
@@ -162,7 +162,7 @@ if page == "🔍 Detect News":
                 r = predict_news(input_text, model, vectorizer)
                 model_results.append({
                     "Model": name,
-                    "Verdict": "✅ REAL" if r["is_real"] else "❌ FAKE",
+                    "Verdict": " REAL" if r["is_real"] else " FAKE",
                     "Confidence": f"{r['confidence']:.1f}%" if r["confidence"] else "N/A"
                 })
             st.table(pd.DataFrame(model_results))
@@ -170,46 +170,46 @@ if page == "🔍 Detect News":
 # ════════════════════════════════════════════════════════════
 # PAGE: ANALYZE URL
 # ════════════════════════════════════════════════════════════
-elif page == "🌐 Analyze URL":
-    st.title("🌐 Real-Time URL News Analyzer")
+elif page == " Analyze URL":
+    st.title(" Real-Time URL News Analyzer")
     st.markdown("Enter a news article URL and we'll scrape + classify it instantly.")
     st.markdown("---")
 
     from app.utils import fetch_article_from_url
 
-    url_input = st.text_input("🔗 Paste News Article URL", 
+    url_input = st.text_input(" Paste News Article URL", 
                                placeholder="https://www.bbc.com/news/...")
-    analyze_url_btn = st.button("🚀 Fetch & Analyze", type="primary")
+    analyze_url_btn = st.button(" Fetch & Analyze", type="primary")
 
     if analyze_url_btn and url_input:
-        with st.spinner("🌐 Fetching article..."):
+        with st.spinner(" Fetching article..."):
             article_data = fetch_article_from_url(url_input)
 
         if not article_data["success"]:
-            st.error(f"❌ Could not fetch article: {article_data['error']}")
+            st.error(f" Could not fetch article: {article_data['error']}")
         else:
-            st.success("✅ Article fetched successfully!")
+            st.success(" Article fetched successfully!")
 
             col1, col2 = st.columns([2, 1])
             with col1:
-                st.subheader("📰 Article Info")
+                st.subheader(" Article Info")
                 st.markdown(f"**Title:** {article_data['title']}")
                 st.markdown(f"**Published:** {article_data['publish_date']}")
                 if article_data["authors"]:
                     st.markdown(f"**Authors:** {', '.join(article_data['authors'])}")
-                with st.expander("📄 Article Text (Preview)"):
+                with st.expander(" Article Text (Preview)"):
                     st.write(article_data["text"][:2000] + "...")
 
             with col2:
-                st.subheader("🤖 Classification")
+                st.subheader(" Classification")
                 full_text = article_data["title"] + " " + article_data["text"]
                 result = predict_news(full_text, models[model_choice], vectorizer)
 
                 if result["is_real"]:
-                    st.markdown('<div class="real-badge">✅ REAL NEWS</div>',
+                    st.markdown('<div class="real-badge"> REAL NEWS</div>',
                                 unsafe_allow_html=True)
                 else:
-                    st.markdown('<div class="fake-badge">❌ FAKE NEWS</div>',
+                    st.markdown('<div class="fake-badge"> FAKE NEWS</div>',
                                 unsafe_allow_html=True)
 
                 if result["confidence"]:
@@ -217,19 +217,19 @@ elif page == "🌐 Analyze URL":
 # ════════════════════════════════════════════════════════════
 # PAGE 2: MODEL ANALYTICS
 # ════════════════════════════════════════════════════════════
-elif page == "📊 Model Analytics":
-    st.title("📊 Model Performance Analytics")
+elif page == " Model Analytics":
+    st.title(" Model Performance Analytics")
     st.markdown("---")
 
     try:
         with open("models/results.json") as f:
             results = json.load(f)
     except FileNotFoundError:
-        st.error("❌ No results found. Please run `python src/train.py` first.")
+        st.error(" No results found. Please run `python src/train.py` first.")
         st.stop()
 
     # Metrics table
-    st.subheader("📈 Performance Summary")
+    st.subheader(" Performance Summary")
     data = []
     for name, metrics in results.items():
         if name == "best_model":
@@ -253,7 +253,7 @@ elif page == "📊 Model Analytics":
     st.plotly_chart(fig, use_container_width=True)
 
     # Show saved plots if available
-    st.subheader("🗺️ Saved Evaluation Plots")
+    st.subheader(" Saved Evaluation Plots")
     cols = st.columns(2)
     plot_files = [f for f in os.listdir("assets") if f.endswith(".png")]
     for i, plot_file in enumerate(sorted(plot_files)):
@@ -264,21 +264,21 @@ elif page == "📊 Model Analytics":
 # ════════════════════════════════════════════════════════════
 # PAGE 3: ABOUT
 # ════════════════════════════════════════════════════════════
-elif page == "ℹ️ About":
-    st.title("ℹ️ About This Project")
+elif page == " About":
+    st.title(" About This Project")
     st.markdown("""
-    ## 🗞️ Fake News Detection System
+    ##  Fake News Detection System
 
     This application uses **Natural Language Processing (NLP)** and **Machine Learning** 
     to classify news articles as Real or Fake.
 
-    ### 🔧 How It Works
+    ###  How It Works
     1. **Text Preprocessing** — Article is cleaned, stopwords removed, and stemmed
     2. **TF-IDF Vectorization** — Text is converted to a numerical feature matrix
     3. **ML Classification** — Trained model predicts Real (1) or Fake (0)
     4. **Confidence Score** — Probability of prediction shown as a gauge
 
-    ### 🤖 Models Used
+    ###  Models Used
     | Model | Type | Strength |
     |---|---|---|
     | Logistic Regression | Linear | Fast, interpretable |
@@ -286,11 +286,11 @@ elif page == "ℹ️ About":
     | Random Forest | Ensemble | High accuracy |
     | Passive Aggressive | Online Learning | Handles large data |
 
-    ### 📊 Dataset
+    ###  Dataset
     - **ISOT Fake News Dataset** (Kaggle)
     - ~44,000 articles (Real + Fake)
     - Sources: Reuters (real), various fake news sites (fake)
 
-    ### 🛠️ Tech Stack
+    ###  Tech Stack
     `Python` · `Scikit-learn` · `NLTK` · `Streamlit` · `Plotly` · `Pandas`
     """)

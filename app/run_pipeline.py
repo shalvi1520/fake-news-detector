@@ -25,6 +25,6 @@ from src.evaluate import run_evaluation
 run_evaluation()
 
 print("\n" + "="*60)
-print("  ✅ ALL DONE! Launch app with:")
+print("   ALL DONE! Launch app with:")
 print("  streamlit run app/app.py")
 print("="*60 + "\n")
