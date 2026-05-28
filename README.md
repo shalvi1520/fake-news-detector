@@ -64,3 +64,17 @@ streamlit run app/app.py
 ```
 
 ## 📁 Project Structure
+fake-news-detector/
+├── data/raw/              # Dataset CSVs (not tracked in git)
+├── notebooks/             # EDA notebook
+├── src/                   # ML pipeline modules
+│   ├── preprocess.py      # Text cleaning & TF-IDF
+│   ├── train.py           # Model training
+│   └── evaluate.py        # Metrics & plots
+├── models/                # Saved .pkl files (not tracked)
+├── app/                   # Streamlit application
+│   ├── app.py
+│   └── utils.py
+├── assets/                # Generated charts & images
+├── run_pipeline.py        # One-click pipeline runner
+└── requirements.txt
