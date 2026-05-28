@@ -117,7 +117,7 @@ def plot_model_comparison(results: dict):
 
 # ── Main Evaluation Pipeline ──────────────────────────────────
 def run_evaluation():
-    print("📂 Loading test data and models...")
+    print(" Loading test data and models...")
     X_train, X_test, y_train, y_test = joblib.load("models/train_test_data.pkl")
 
     with open("models/results.json") as f:
@@ -127,7 +127,7 @@ def run_evaluation():
 
     for name, path in MODEL_FILES.items():
         print(f"\n{'─'*40}")
-        print(f"📊 Evaluating: {name}")
+        print(f" Evaluating: {name}")
 
         model = joblib.load(path)
         y_pred = model.predict(X_test)
@@ -147,14 +147,14 @@ def run_evaluation():
             roc_data[name] = (y_test, None)
 
     # ROC Curves
-    print("\n📈 Plotting ROC Curves...")
+    print("\n Plotting ROC Curves...")
     plot_roc_curves(roc_data)
 
     # Model Comparison
-    print("📊 Plotting Model Comparison...")
+    print(" Plotting Model Comparison...")
     plot_model_comparison(results)
 
-    print("\n✅ Evaluation complete! All plots saved in assets/")
+    print("\n Evaluation complete! All plots saved in assets/")
 
 
 if __name__ == "__main__":
