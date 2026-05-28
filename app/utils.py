@@ -36,7 +36,7 @@ def predict_news(text: str, model, vectorizer) -> dict:
     cleaned = clean_text(text)
     X = vectorizer.transform([cleaned])
     pred = model.predict(X)[0]
-    label = "REAL ✅" if pred == 1 else "FAKE ❌"
+    label = "REAL " if pred == 1 else "FAKE "
 
     try:
         proba = model.predict_proba(X)[0]
