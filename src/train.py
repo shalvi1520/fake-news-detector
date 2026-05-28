@@ -41,9 +41,9 @@ MODELS = {
 # ── Training ─────────────────────────────────────────────────
 def train_model(name: str, model, X_train, y_train):
     """Trains a single model and returns it."""
-    print(f"  🔄 Training {name}...")
+    print(f"   Training {name}...")
     model.fit(X_train, y_train)
-    print(f"  ✅ {name} trained!")
+    print(f"   {name} trained!")
     return model
 
 
@@ -69,24 +69,24 @@ def train_all_models(X_train, X_test, y_train, y_test):
             "f1_score": round(f1 * 100, 2),
         }
 
-        print(f"  📊 Accuracy : {acc*100:.2f}%")
-        print(f"  📊 F1 Score : {f1*100:.2f}%")
+        print(f"   Accuracy : {acc*100:.2f}%")
+        print(f"   F1 Score : {f1*100:.2f}%")
 
         # Save model
         safe_name = name.lower().replace(" ", "_")
         save_path = f"models/{safe_name}.pkl"
         joblib.dump(trained, save_path)
-        print(f"  💾 Saved: {save_path}")
+        print(f"   Saved: {save_path}")
 
     # Find best model
     best_model_name = max(results, key=lambda k: results[k]["accuracy"])
     results["best_model"] = best_model_name
-    print(f"\n🏆 Best Model: {best_model_name} ({results[best_model_name]['accuracy']}% accuracy)")
+    print(f"\n Best Model: {best_model_name} ({results[best_model_name]['accuracy']}% accuracy)")
 
     # Save results summary
     with open("models/results.json", "w") as f:
         json.dump(results, f, indent=2)
-    print("📁 Saved: models/results.json")
+    print(" Saved: models/results.json")
 
     return results
 
@@ -94,11 +94,11 @@ def train_all_models(X_train, X_test, y_train, y_test):
 # ── Main ─────────────────────────────────────────────────────
 def run_training():
     """Load processed data and train all models."""
-    print("📂 Loading preprocessed data...")
+    print(" Loading preprocessed data...")
     X_train, X_test, y_train, y_test = joblib.load("models/train_test_data.pkl")
     print(f"   Train: {X_train.shape} | Test: {X_test.shape}")
 
-    print("\n🚀 Starting model training...\n")
+    print("\n Starting model training...\n")
     results = train_all_models(X_train, X_test, y_train, y_test)
 
     print("\n" + "="*50)
