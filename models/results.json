@@ -1,0 +1,19 @@
+{
+  "Logistic Regression": {
+    "accuracy": 99.14,
+    "f1_score": 99.14
+  },
+  "Naive Bayes": {
+    "accuracy": 96.63,
+    "f1_score": 96.63
+  },
+  "Random Forest": {
+    "accuracy": 98.76,
+    "f1_score": 98.76
+  },
+  "Passive Aggressive": {
+    "accuracy": 99.77,
+    "f1_score": 99.77
+  },
+  "best_model": "Passive Aggressive"
+}
